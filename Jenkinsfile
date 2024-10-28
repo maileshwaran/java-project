@@ -1,20 +1,14 @@
 pipeline {
    environment {
-     git_url = "https://github.com/salilkul/java-project.git"
+     git_url = "https://github.com/shrutibhardwaj327/java-project.git"
      git_branch = "master"
    }
 
-  agent {label 'dev'}
-  //agent any
+  // agent {label 'dev'}
+  agent any
   stages {
-    stage('Pull Source') {
-      steps {
-        git credentialsId: '9f208e10-bac2-4bb5-b250-4248c8479fd2', branch: "${git_branch}", url: "${git_url}"
-       
-      }
-     }
-    
-    stage('Maven Build') {
+
+        stage('Maven Build') {
      steps { 
           sh "mvn clean package && cp target/*.jar . "
      }
@@ -27,11 +21,12 @@ pipeline {
              }
         stage('Docker image push') {
            steps {
-                 withCredentials([usernamePassword(credentialsId: '82377f3d-eaad-4d26-8e68-bdb06c13e4d8', passwordVariable: 'Password', usernameVariable: 'Username')]) {
-                 sh "sudo docker login -u ${env.Username} -p ${env.Password}"
-                 sh "sudo docker image tag myjava-image salilkul87/myjava-image:test"
-                 sh "sudo docker image tag myjava-image salilkul87/myjava-image:${BUILD_NUMBER}"
-                 sh "sudo docker image push salilkul87/myjava-image:${BUILD_NUMBER}" 
+                 // withCredentials([usernamePassword(credentialsId: '82377f3d-eaad-4d26-8e68-bdb06c13e4d8', passwordVariable: 'Password', usernameVariable: 'Username')]) {
+                 // sh "sudo docker login -u ${env.Username} -p ${env.Password}"
+                 sh "sudo docker login -u shruti1725 -p nisharajeev"
+                 sh "sudo docker image tag myjava-image shruti1725/myjava-image:test"
+                 sh "sudo docker image tag myjava-image shruti1725/myjava-image:${BUILD_NUMBER}"
+                 sh "sudo docker image push shruti1725/myjava-image:${BUILD_NUMBER}" 
                } 
              }  
           }
@@ -39,7 +34,7 @@ pipeline {
          steps {
            sh 'ls -ltr'
            //sh 'kubectl apply -f app-deploy.yaml'
-            sh 'sudo docker container run -d --name testcont salilkul87/myjava-image:test'
+            sh 'sudo docker container run -d --name testcont shruti1725/myjava-image:test'
         }
      }
     }
