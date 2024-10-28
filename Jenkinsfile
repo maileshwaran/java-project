@@ -1,15 +1,9 @@
 pipeline {
-   environment {
-     git_url = "https://github.com/shrutibhardwaj327/java-project.git"
-     git_branch = "master"
-   }
-
-  // agent {label 'dev'}
   agent any
   stages {
 
-        stage('Maven Build') {
-     steps { 
+     stage('Maven Build') {
+        steps { 
           sh "mvn clean package && cp target/*.jar . "
      }
     }
