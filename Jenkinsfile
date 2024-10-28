@@ -24,14 +24,14 @@ pipeline {
                } 
              }  
           }
-      stage('Deploy app') {
-         steps {
-           sh 'ls -ltr'
-           //sh 'kubectl apply -f app-deploy.yaml'
-            sh 'sudo docker container run -d --name testcont shruti1725/myjava-image:test'
-        }
-     }
-    }
+        stage('Deploy app') {
+           steps {
+             sh 'ls -ltr'
+             //sh 'kubectl apply -f app-deploy.yaml'
+              sh 'sudo docker container run -d --name testcont shruti1725/myjava-image:test'
+          }
+       }
+      }
 
 //  post {
 //    always {
